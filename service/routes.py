@@ -10,6 +10,7 @@ from service.common import status  # HTTP Status Codes
 from . import app  # Import Flask application
 from service.test_routes import BASE_URL
 
+
 ############################################################
 # Health Endpoint
 ############################################################
@@ -127,7 +128,6 @@ def delete_accounts(account_id):
     """
     app.logger.info("Request to delete an Account with id: %s", account_id)
 
-
     account = Account.find(account_id)
     if account:
         account.delete()
@@ -151,7 +151,7 @@ def check_content_type(media_type):
     )
 
 ######################################################################
-#  A C C O U N T   N O T   F O U N D 
+#  A C C O U N T   N O T   F O U N D
 ######################################################################
 
 
