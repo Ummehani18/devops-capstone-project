@@ -109,7 +109,6 @@ def update_accounts(account_id):
     if not account:
         abort(status.HTTP_404_NOT_FOUND, f"Account with id [{account_id}] could not be found.")
 
-
     account.deserialize(request.get_json())
     account.update()
 
@@ -132,7 +131,6 @@ def delete_accounts(account_id):
     account = Account.find(account_id)
     if account:
         account.delete()
-
     return "", status.HTTP_204_NO_CONTENT
 
 ######################################################################
@@ -143,7 +141,7 @@ def delete_accounts(account_id):
 def check_content_type(media_type):
     """Checks that the media type is correct"""
     content_type = request.headers.get("Content-Type")
-    
+
     if content_type and content_type == media_type:
         return
     app.logger.error("Invalid Content-Type: %s", content_type)
@@ -155,6 +153,7 @@ def check_content_type(media_type):
 ######################################################################
 #  A C C O U N T   N O T   F O U N D 
 ######################################################################
+
 
 def test_get_account_not_found(self):
     """It should not Read an Account that is not found"""
