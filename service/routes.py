@@ -8,7 +8,7 @@ from flask import jsonify, request, make_response, abort, url_for  # noqa; F401
 from service.models import Account
 from service.common import status  # HTTP Status Codes
 from . import app  # Import Flask application
-from service.test_routes import BASE_URL
+
 
 ############################################################
 # Health Endpoint
@@ -19,6 +19,7 @@ from service.test_routes import BASE_URL
 def health():
     """Health Status"""
     return jsonify(dict(status="OK")), status.HTTP_200_OK
+
 
 ######################################################################
 # GET INDEX
@@ -35,6 +36,7 @@ def index():
         ),
         status.HTTP_200_OK,
     )
+
 
 ######################################################################
 # CREATE A NEW ACCOUNT
@@ -58,6 +60,7 @@ def create_accounts():
         jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
     )
 
+
 ######################################################################
 # LIST ALL ACCOUNTS
 ######################################################################
@@ -75,6 +78,7 @@ def list_accounts():
     app.logger.info("Returning [%s] accounts", len(account_list))
     return jsonify(account_list), status.HTTP_200_OK
 
+
 ######################################################################
 # READ AN ACCOUNT
 ######################################################################
@@ -89,8 +93,12 @@ def get_accounts(account_id):
     app.logger.info("Request to read an Account with id: %s", account_id)
     account = Account.find(account_id)
     if not account:
-        abort(status.HTTP_404_NOT_FOUND, f"Account with id [{account_id}] could not be found.")
+        abort(
+            status.HTTP_404_NOT_FOUND,
+            f"Account with id [{account_id}] could not be found.",
+        )
     return account.serialize(), status.HTTP_200_OK
+
 
 ######################################################################
 # UPDATE AN EXISTING ACCOUNT
@@ -107,12 +115,16 @@ def update_accounts(account_id):
 
     account = Account.find(account_id)
     if not account:
-        abort(status.HTTP_404_NOT_FOUND, f"Account with id [{account_id}] could not be found.")
+        abort(
+            status.HTTP_404_NOT_FOUND,
+            f"Account with id [{account_id}] could not be found.",
+        )
 
     account.deserialize(request.get_json())
     account.update()
 
     return account.serialize(), status.HTTP_200_OK
+
 
 ######################################################################
 # DELETE AN ACCOUNT
@@ -132,6 +144,7 @@ def delete_accounts(account_id):
         account.delete()
     return "", status.HTTP_204_NO_CONTENT
 
+
 ######################################################################
 #  U T I L I T Y   F U N C T I O N S
 ######################################################################
@@ -149,14 +162,15 @@ def check_content_type(media_type):
         f"Content-Type must be {media_type}",
     )
 
+
 ######################################################################
-#  ACCOUNT NOT  FOUND
+#  A C C O U N T   N O T   F O U N D
 ######################################################################
 
 
 def test_get_account_not_found(self):
-    """It should not Read an Account that is not found"""
     resp = self.client.get(f"{BASE_URL}/0")
     self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
 
 # Ensure there is a newline at the end of the file
